@@ -14,37 +14,42 @@ typedef struct GraphType {
 	int n;
 	int weight[7][7];
 }GraphType;
+
 int distance[7];
 int selected[7];
+
+//방문하지 않은 정점중에서 가장 가까운 정점 리턴
 int get_min_vertex(int n) {
 	int v = 0, i;
 
 	for (i = 0; i < n; i++) {
-		if (!selected[i]) {
-			v = i;
+		if (!selected[i]) { // 방문하지 않았다면
+			v = i; //v 선택
 			break;
 		}
 	}
 
 	for (i = 0; i < n; i++) {
 		if (!selected[i] && (distance[i] < distance[v])) {
+			//방문하지 않았고 정점v보다 더 작은 거리를 가진 정점이있다면 교체
 			v = i;
 		}
 	}
 	return v;
 }
-void prim(GraphType* g, int s) {
+
+void prim(GraphType* g, int start) {
 	int i, u, v;
 
 	for (int u = 0; u < g->n; u++) {
 		distance[u] = INF;
 		selected[u] = 0;
 	}
-	distance[s] = 0;
+	distance[start] = 0;
 
 	for (i = 0; i < g->n; i++) {
 		u = get_min_vertex(g->n);
-		selected[u] = TRUE;
+		selected[u] = TRUE; // 방문
 
 		if (distance[u] == INF) {
 			return;
